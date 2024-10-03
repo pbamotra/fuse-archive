@@ -798,7 +798,9 @@ SideBufferMetadata g_side_buffer_metadata[NUM_SIDE_BUFFERS] = {};
 
 template <typename... Args>
 std::string StrCat(Args&&... args) {
-  return (std::ostringstream() << ... << std::forward<Args>(args)).str();
+        std::ostringstream oss;
+        (oss << ... << std::forward<Args>(args)); // Fold expression to concatenate arguments
+        return oss.str();                         // Now you can call str() safely
 }
 
 enum class LogLevel {
